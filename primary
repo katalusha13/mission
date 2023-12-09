@@ -1,1 +1,93 @@
+ if (!module){ //Если модуль создан пропускаем добавление его в систему
+                    guid = Utils.GUID();
+                    modules[guid] = {
+                        name: moduleName,
+                        guid: guid,
+                        libraryName: libName,
+                        moduleRef: null
+                    };
+                    module = modules[guid];
 
+                    var page = new lib.pageConstructor(guid, caption); //Создаем окно модуля по "шаблону"
+                    module.status = 'loading';
+                    Utils.LoadHTML(page, lib.view, function (viewPort) { //Загружаем HTML который будем выступать для модуля контекстом
+                        Utils.LoadCSS(lib.css, guid); //подгружаем необходимые библиотеки CSS
+                        Utils.LoadJS(lib.request, function () { //подгружаем необходимые библиотеки JS (зависимости)
+                            $.each(lib.request, function (index, item) {
+                                $('script[id="' + item.libraryPath + '"]').addClass(guid); //Создаем ссылки нашего модуля на библиотеку, чтобы можно было отслеживать когда никто из модулей не использует библиотеку, и ее можно удалить из системы
+                            });
+                            module.moduleRef = new lib.classRef(); //Инстанцирование экземпляра
+                            $(module.moduleRef).bind("poll", sync); //Сообщаем загруженному экземпляру ссылку на метод общения с ядром
+                            module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data }); //Сообщаем ядру его GUID и главный контекст
+                            if ($.isFunction(callback)) {
+                                callback(module);
+                            }
+                        });
+                    });
+                }else{
+                    if (module.status == 'complete'){ 
+                        if ($.isFunction(callback)) {
+                            callback(module);
+                        }
+                    }else if(module.status == 'registered'){ //Если модуль загружен, но у него отсутствует контекст
+                        var page = new lib.pageConstructor(guid, caption);
+                        module.status = 'loading';
+                        Utils.LoadHTML(page, lib.view, function (viewPort) {
+                            module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data });
+                            if ($.isFunction(callback)) {
+                                callback(module);
+                            }
+                        });
+                    }
+                }
+            });
+        };
+
+        var removeModule = function (guid) { //Удаление модуля и чистка библиотек если нужно
+            var lib = libraries[modules[guid].libraryName];
+            var selfAndRequest = [{ library: lib.libraryPath, unload: true, GC: []}];
+            selfAndRequest = selfAndRequest.concat(lib.request);
+            var success = Utils.UnloadJS(selfAndRequest, guid);
+            if (success) {
+                $.each(lib.request, function (index, item) {
+                    if (item.unload) {
+                        for (var i = 0; i < item.GC.length; i++) {
+                            window[item.GC[i]] = null;
+                        }
+                    }
+                });
+            }
+            Utils.UnloadCSS(lib.css, guid);
+            delete modules[guid];
+        };
+
+        var sync = function (data) { //Точка входа для сообщений модулей
+            switch (data.event) {
+<cute>
+            }
+        };
+
+        var ready = function (func) {
+            if (isReady) {
+                return func();
+            } else {
+                var id = (new Date()).getTime();
+                timer[id] = setInterval(function () {
+                    if (isReady) {
+                        clearInterval(timer[id]);
+                        func();
+                    }
+                } .bind(this), 13);
+            }
+        };
+
+        var login = function(){ //окно логина
+            $.getJSON('./modules/common/login.php?action=CHECK&rnd='+Math.random(), function(data){
+                if (data.result == true){
+                    run({userName: data.userName});
+                }else{
+                    $('#site-wrapper').load('./modules/common/login.html?'+Math.random(), function (response, status, xhr) {
+                        if (status == "success") {
+                            $.each(modules, function (index, module) {
+                                removeModule(module.guid);
+                            });
