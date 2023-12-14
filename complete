@@ -3,3 +3,4 @@
                     modules[guid] = {
                     name: moduleName,
                     guid: guid,
+                    libraryName: libName,
