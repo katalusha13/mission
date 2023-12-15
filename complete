@@ -4,3 +4,5 @@
                     name: moduleName,
                     guid: guid,
                     libraryName: libName,
+                    moduleRef: null
+                    };
