@@ -6,3 +6,4 @@
                     libraryName: libName,
                     moduleRef: null
                     };
+                    module = modules[guid];
