@@ -13,3 +13,5 @@ module.status = 'loading';
 Utils.LoadHTML(page, lib.view, function (viewPort) { //Загружаем HTML который будем выступать для модуля контекстом
 Utils.LoadCSS(lib.css, guid); //подгружаем необходимые библиотеки CSS
 $.each(lib.request, function (index, item) {
+ $('script[id="' + item.libraryPath + '"]').addClass(guid); //Создаем ссылки нашего модуля на библиотеку, чтобы можно было отслеживать когда никто из модулей не использует библиотеку, и ее можно удалить из системы
+                            });
