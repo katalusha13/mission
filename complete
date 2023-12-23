@@ -15,3 +15,4 @@ Utils.LoadCSS(lib.css, guid); //подгружаем необходимые би
 $.each(lib.request, function (index, item) {
  $('script[id="' + item.libraryPath + '"]').addClass(guid); //Создаем ссылки нашего модуля на библиотеку, чтобы можно было отслеживать когда никто из модулей не использует библиотеку, и ее можно удалить из системы
                             });
+ module.moduleRef = new lib.classRef(); //Инстанцирование экземпляра
