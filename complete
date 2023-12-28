@@ -20,3 +20,4 @@ $.each(lib.request, function (index, item) {
 module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data }); //Сообщаем ядру его GUID и главный контекст
  if ($.isFunction(callback)) {
 callback(module);
+}
