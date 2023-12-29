@@ -21,3 +21,6 @@ module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name:
  if ($.isFunction(callback)) {
 callback(module);
 }
+});
+                    });
+                }else{
