@@ -8,3 +8,4 @@
                     };
                     module = modules[guid];
 
+var page = new lib.pageConstructor(guid, caption); //Создаем окно модуля по "шаблону"
