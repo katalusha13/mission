@@ -21,3 +21,4 @@ module.moduleRef = new lib.classRef(); //Инстанцирование экзе
 module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data }); //Сообщаем ядру его GUID и главный контекст
  if ($.isFunction(callback)) {
 callback(module);
+ }
