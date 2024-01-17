@@ -25,3 +25,4 @@ callback(module);
  });
    });
   }else{
+if (module.status == 'complete'){ 
