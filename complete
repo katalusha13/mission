@@ -26,3 +26,4 @@ callback(module);
    });
   }else{
 if (module.status == 'complete'){ 
+ if ($.isFunction(callback)) {
