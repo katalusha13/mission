@@ -10,5 +10,5 @@
 
 var page = new lib.pageConstructor(guid, caption); //Создаем окно модуля по "шаблону"
 module.status = 'loading';
-
+Utils.LoadHTML(page, lib.view, function (viewPort) { //Загружаем HTML который будем выступать для модуля контекстом
 
