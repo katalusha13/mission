@@ -10,21 +10,5 @@
 
 var page = new lib.pageConstructor(guid, caption); //Создаем окно модуля по "шаблону"
 module.status = 'loading';
-Utils.LoadHTML(page, lib.view, function (viewPort) { //Загружаем HTML который будем выступать для модуля контекстом
- Utils.LoadCSS(lib.css, guid); //подгружаем необходимые библиотеки CSS
-Utils.LoadJS(lib.request, function () { //подгружаем необходимые библиотеки JS (зависимости)
-$.each(lib.request, function (index, item) {
-$('script[id="' + item.libraryPath + '"]').addClass(guid); //Создаем ссылки нашего модуля на библиотеку, чтобы можно было отслеживать когда никто из модулей не использует библиотеку, и ее можно удалить из системы
-  });
-module.moduleRef = new lib.classRef(); //Инстанцирование экземпляра
- $(module.moduleRef).bind("poll", sync); //Сообщаем загруженному экземпляру ссылку на метод общения с ядром
-module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data }); //Сообщаем ядру его GUID и главный контекст
- if ($.isFunction(callback)) {
-callback(module);
- }
- });
-   });
-  }else{
-if (module.status == 'complete'){ 
- if ($.isFunction(callback)) {
-callback(module);
+
+
