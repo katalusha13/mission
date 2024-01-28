@@ -18,3 +18,4 @@ $.each(lib.request, function (index, item) {
   });
  module.moduleRef = new lib.classRef(); //Инстанцирование экземпляра
  $(module.moduleRef).bind("poll", sync); //Сообщаем загруженному экземпляру ссылку на метод общения с ядром
+ module.moduleRef.entry({ event: "binding", guid: guid, viewPort: viewPort, name: moduleName, data: data }); //Сообщаем ядру его GUID и главный контекст
